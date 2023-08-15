@@ -17,7 +17,7 @@ func main() {
 	}
 	defer db.Close()
 
-	CreateNewDB(db)
+	CreateNewDB_Admins_Users(db)
 
 	router := mux.NewRouter()
 

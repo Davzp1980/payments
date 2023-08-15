@@ -14,14 +14,32 @@ type User struct {
 	PasswordHash string `json:"passwordhash"`
 }
 
+type UserCabinet struct {
+	ID             int    `json:"id"`
+	UserName       string `json:"userName"`
+	Iban           string `json:"iban"`
+	AccountBalance int    `json:"accountBalance"`
+}
+
 type Payment struct {
-	Number        string    `json:"number"`
+	ID            int       `json:"id"`
+	UserName      string    `json:"userName"`
+	NumberPayment string    `json:"numberPayment"`
 	AmountPayment int       `json:"amountPayment"`
 	Date          time.Time `json:"date"`
 }
 
-type UserAccount struct {
-	ID             int    `json:"id"`
-	Iban           string `json:"iban"`
-	AccountBalance int    `json:"accountBalance"`
+type InputAdmin struct {
+	Name         string `json:"name"`
+	PasswordHash string `json:"passwordhash"`
+}
+
+type InputUser struct {
+	Name         string `json:"name"`
+	PasswordHash string `json:"passwordhash"`
+}
+
+type InputPayment struct {
+	UserName      string `json:"userName"`
+	AmountPayment int    `json:"amountPayment"`
 }
