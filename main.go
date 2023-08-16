@@ -13,7 +13,7 @@ func main() {
 
 	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
-		log.Println(err)
+		log.Fatal("BD did not opend")
 	}
 	defer db.Close()
 

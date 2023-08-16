@@ -21,13 +21,13 @@ func CreateNewDB_Admins_Users(db *sql.DB) error {
 	return err
 }
 
-func CreateNewDB_UserCab_Payment(db *sql.DB) error {
+func CreateNewDB_UserCab_Payments(db *sql.DB) error {
 
 	CreateTablesQuery := `
 		CREATE TABLE IF NOT EXISTS usercabinet (
 			id serial PRYMARY KEY,
 			user_name VARCHAR (25),
-			iban VARCHAR,
+			iban VARCHAR (34),
 			AccountBalance serial
 		);
 		CREATE TABLE IF NOT EXISTS payment (
