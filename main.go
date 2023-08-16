@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"payments/authorization"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -23,7 +22,9 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/createAdmin", authorization.CreateAdmin(db))
+	router.HandleFunc("/createadmin", CreateAdmin(db)).Methods("POST")
+
+	router.HandleFunc("/createuser", CreateUser(db)).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8000", router))
 
