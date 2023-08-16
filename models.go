@@ -30,13 +30,13 @@ type Payment struct {
 }
 
 type InputAdmin struct {
-	Name         string `json:"name"`
-	PasswordHash string `json:"passwordhash"`
+	Name     string `json:"name"`
+	Password string `json:"passwordhash"`
 }
 
 type InputUser struct {
-	Name         string `json:"name"`
-	PasswordHash string `json:"passwordhash"`
+	Name     string `json:"name"`
+	Password string `json:"passwordhash"`
 }
 
 type InputPayment struct {

@@ -12,7 +12,7 @@ var (
 )
 
 func init() {
-	fileInfo, err := os.OpenFile("logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	fileInfo, err := os.OpenFile("logsInfo.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
