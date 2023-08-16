@@ -2,44 +2,28 @@ package main
 
 import "time"
 
-type Admin struct {
-	ID           int    `json:"id"`
-	Name         string `json:"name"`
-	PasswordHash string `json:"passwordhash"`
-}
-
 type User struct {
 	ID           int    `json:"id"`
 	Name         string `json:"name"`
-	PasswordHash string `json:"passwordhash"`
+	PasswordHash string `json:"password_hash"`
+	IsAdmin      bool   `json:"is_admin"`
 }
 
-type UserCabinet struct {
-	ID             int    `json:"id"`
-	UserName       string `json:"userName"`
-	Iban           string `json:"iban"`
-	AccountBalance int    `json:"accountBalance"`
+type Account struct {
+	ID      int    `json:"id"`
+	UserId  int    `json:"user_id"`
+	Iban    string `json:"iban"`
+	Balance int    `json:"balance"`
 }
 
 type Payment struct {
 	ID            int       `json:"id"`
-	UserName      string    `json:"userName"`
-	NumberPayment string    `json:"numberPayment"`
-	AmountPayment int       `json:"amountPayment"`
+	AccountId     string    `json:"account_id"`
+	AmountPayment int       `json:"amount_payment"`
 	Date          time.Time `json:"date"`
 }
 
-type InputAdmin struct {
-	Name     string `json:"name"`
-	Password string `json:"passwordhash"`
-}
-
-type InputUser struct {
-	Name     string `json:"name"`
-	Password string `json:"passwordhash"`
-}
-
-type InputPayment struct {
-	UserName      string `json:"userName"`
-	AmountPayment int    `json:"amountPayment"`
+type Input struct {
+	Name         string `json:"name"`
+	PasswordHash string `json:"password_hash"`
 }

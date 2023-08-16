@@ -8,18 +8,18 @@ func CreateNewDB(db *sql.DB) error {
 		CREATE TABLE IF NOT EXISTS users (
 			id serial PRIMARY KEY,
 			name VARCHAR (25) NOT NULL UNIQUE,
-			password VARCHAR NOT NULL UNIQUE
+			password VARCHAR NOT NULL UNIQUE,
 			is_admin boolean
 		);
-		CREATE TABLE IF NOT EXISTS accaunt (
+		CREATE TABLE IF NOT EXISTS accounts (
 			id serial PRIMARY KEY,
 			user_id serial,
 			iban VARCHAR (34),
-			AccountBalance serial
+			balance serial
 		);
-		CREATE TABLE IF NOT EXISTS payment (
+		CREATE TABLE IF NOT EXISTS payments (
 			id serial PRIMARY KEY,
-			accaunt_id serial,
+			account_id serial,
 			amount_payment serial,
 			date TIMESTAMP WITH TIME ZONE
 		);
