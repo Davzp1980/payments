@@ -27,6 +27,8 @@ func main() {
 	router.HandleFunc("/createuser", CreateUser(db)).Methods("POST")
 
 	router.Use(LogginingMiddleware)
+	router.HandleFunc("/createaccount", CreateAccount(db)).Methods("POST")
+	router.HandleFunc("/createapayment", CreatePayment(db)).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(":8000", router))
 

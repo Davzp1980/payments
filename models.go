@@ -21,9 +21,16 @@ type Payment struct {
 	AccountId     string    `json:"account_id"`
 	AmountPayment int       `json:"amount_payment"`
 	Date          time.Time `json:"date"`
+	Reciever      string    `json:"reciever"`
 }
 
 type Input struct {
 	Name         string `json:"name"`
 	PasswordHash string `json:"password_hash"`
+}
+
+type InputPayment struct {
+	PayerName     string `json:"payer_name"`
+	ReceiverName  string `json:"receiver_name"`
+	AmountPayment int    `json:"amount_payment"`
 }
