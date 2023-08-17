@@ -35,7 +35,8 @@ func CreateUser(db *sql.DB) http.HandlerFunc {
 		hashedPassword, _ := HashedPassword(user.PasswordHash)
 		isAdmin := false
 
-		err := db.QueryRow("SELECT * FROM users WHERE name=$1", input.Name).Scan(&user.ID, &user.Name, &user.PasswordHash, &user.IsAdmin)
+		err := db.QueryRow("SELECT * FROM users WHERE name=$1", input.Name).Scan(
+			&user.ID, &user.Name, &user.PasswordHash, &user.IsAdmin)
 		if err != nil {
 			log.Println(err)
 		}

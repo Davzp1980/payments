@@ -23,8 +23,10 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/createadmin", CreateAdmin(db)).Methods("POST")
-
+	router.HandleFunc("/login", Login(db)).Methods("POST")
 	router.HandleFunc("/createuser", CreateUser(db)).Methods("POST")
+
+	router.Use(LogginingMiddleware)
 
 	log.Fatal(http.ListenAndServe(":8000", router))
 
