@@ -3,8 +3,11 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
 )
 
 func CreateAccount(db *sql.DB) http.HandlerFunc {
@@ -19,14 +22,18 @@ func CreateAccount(db *sql.DB) http.HandlerFunc {
 		if err != nil {
 			log.Println("User does not exists")
 			w.WriteHeader(http.StatusForbidden)
+			return
 		}
-		iban := "000" + input.Name
+		i := strconv.Itoa(rand.Intn(1000000000))
+		iban := i + input.Name
+		fmt.Println(iban)
 
 		err = db.QueryRow("INSERT INTO accounts (user_id, iban) VALUES ($1,$2) RETURNING id", user.ID, iban).Scan(
-			&account.ID, &account.ID, &account.Iban, &account.Balance)
+			&account.ID)
 		if err != nil {
 			log.Println("Create account error")
 			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
 	}

@@ -11,6 +11,12 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
+/*
+	поля для входа:
+	"name":""
+    "password":""
+*/
+
 var jwtKey = []byte("My_key")
 
 type Claims struct {
@@ -28,10 +34,11 @@ func Login(db *sql.DB) http.HandlerFunc {
 		err := db.QueryRow("SELECT name, password FROM users WHERE name=$1", input.Name).Scan(
 			&user.Name, &user.PasswordHash)
 		if err != nil {
-			log.Println(err)
+			log.Println("User does not exists")
+			w.WriteHeader(http.StatusUnauthorized)
 		}
 
-		if !CheckPassword(input.PasswordHash, user.PasswordHash) || input.Name != user.Name {
+		if !CheckPassword(input.Password, user.PasswordHash) || input.Name != user.Name {
 			http.Redirect(w, r, "/login", http.StatusUnauthorized)
 			log.Println("Wrong password or user name")
 			return
@@ -61,4 +68,11 @@ func Login(db *sql.DB) http.HandlerFunc {
 		w.Write([]byte(fmt.Sprintf("Welcome %s", input.Name)))
 
 	}
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Expires: time.Now(),
+	})
 }

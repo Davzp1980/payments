@@ -48,7 +48,7 @@ func CreateUser(db *sql.DB) http.HandlerFunc {
 			if err != nil {
 				log.Println(err)
 			}
-			json.NewEncoder(w).Encode(input.PasswordHash)
+			json.NewEncoder(w).Encode(input.Password)
 		} else {
 			log.Println("User", inputName, "allready exixts")
 		}

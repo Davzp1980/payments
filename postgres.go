@@ -13,16 +13,19 @@ func CreateNewDB(db *sql.DB) error {
 		);
 		CREATE TABLE IF NOT EXISTS accounts (
 			id serial PRIMARY KEY,
-			user_id serial NOT NULL UNIQUE,
+			user_id serial NOT NULL,
 			iban VARCHAR (34) NOT NULL UNIQUE,
 			balance serial
 		);
 		CREATE TABLE IF NOT EXISTS payments (
 			id serial PRIMARY KEY,
-			account_id serial NOT NULL UNIQUE,
+			user_id serial NOT NULL,
+			reciever VARCHAR,
+			reciever_iban VARCHAR,
+			payer VARCHAR,
+			payer_iban VARCHAR,
 			amount_payment serial,
-			date TIMESTAMP WITH TIME ZONE,
-			reciever VARCHAR
+			date TIMESTAMP WITH TIME ZONE
 		);
 	`
 

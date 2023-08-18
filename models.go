@@ -18,19 +18,24 @@ type Account struct {
 
 type Payment struct {
 	ID            int       `json:"id"`
-	AccountId     string    `json:"account_id"`
+	UserId        int       `json:"user_id"`
+	Reciever      string    `json:"reciever"`
+	RecieverIban  string    `json:"reciever_iban"`
+	Payer         string    `json:"payer"`
+	PayerIban     string    `json:"payer_iban"`
 	AmountPayment int       `json:"amount_payment"`
 	Date          time.Time `json:"date"`
-	Reciever      string    `json:"reciever"`
 }
 
 type Input struct {
-	Name         string `json:"name"`
-	PasswordHash string `json:"password_hash"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
 }
 
 type InputPayment struct {
 	PayerName     string `json:"payer_name"`
+	PayerIban     string `json:"payer_iban"`
 	ReceiverName  string `json:"receiver_name"`
+	ReceiverIban  string `json:"receiver_iban"`
 	AmountPayment int    `json:"amount_payment"`
 }
