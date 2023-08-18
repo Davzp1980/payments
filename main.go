@@ -30,11 +30,12 @@ func main() {
 	router.HandleFunc("/createaccount", CreateAccount(db)).Methods("POST")
 	router.HandleFunc("/createapayment", CreatePayment(db)).Methods("POST")
 
-	router.HandleFunc("/getaccountid", GetAccountsById(db)).Methods("POST")
-	router.HandleFunc("/getaccountiban", GetAccountsByIban(db)).Methods("POST")
-	router.HandleFunc("/getaccountbalance", GetAccountsByBalance(db)).Methods("POST")
+	router.HandleFunc("/getaccountid", GetAccountsById(db)).Methods("GET")
+	router.HandleFunc("/getaccountiban", GetAccountsByIban(db)).Methods("GET")
+	router.HandleFunc("/getaccountbalance", GetAccountsByBalance(db)).Methods("GET")
 
-	router.HandleFunc("/getpaymentid", GetPaymentsById(db)).Methods("POST")
+	router.HandleFunc("/getpaymentid", GetPaymentsById(db)).Methods("GET")
+	router.HandleFunc("/getpaymentdate", GetPaymentsDate(db)).Methods("GET")
 
 	router.HandleFunc("/logout", Logout).Methods("GET")
 

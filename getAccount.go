@@ -9,7 +9,7 @@ import (
 
 func GetAccountsById(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var input Input
+		/*var input Input
 
 		var user User
 
@@ -20,12 +20,13 @@ func GetAccountsById(db *sql.DB) http.HandlerFunc {
 			log.Println("User does not exists")
 			w.WriteHeader(http.StatusNotFound)
 		}
-
-		rows, err := db.Query("SELECT * FROM accounts where user_id=$1 ORDER BY id", user.ID)
+		*/
+		rows, err := db.Query("SELECT * FROM accounts ORDER BY id")
 		if err != nil {
 			log.Panicln("Account selection error")
 			w.WriteHeader(http.StatusNotFound)
 		}
+
 		sortedAccounts := []Account{}
 
 		for rows.Next() {
@@ -44,7 +45,7 @@ func GetAccountsById(db *sql.DB) http.HandlerFunc {
 
 func GetAccountsByIban(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var input Input
+		/*var input Input
 
 		var user User
 
@@ -55,8 +56,8 @@ func GetAccountsByIban(db *sql.DB) http.HandlerFunc {
 			log.Println("User does not exists")
 			w.WriteHeader(http.StatusNotFound)
 		}
-
-		rows, err := db.Query("SELECT * FROM accounts where user_id=$1 ORDER BY iban", user.ID)
+		*/
+		rows, err := db.Query("SELECT * FROM accounts ORDER BY iban")
 		if err != nil {
 			log.Panicln("Account selection error")
 			w.WriteHeader(http.StatusNotFound)
@@ -79,7 +80,7 @@ func GetAccountsByIban(db *sql.DB) http.HandlerFunc {
 
 func GetAccountsByBalance(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var input Input
+		/*var input Input
 
 		var user User
 
@@ -90,8 +91,8 @@ func GetAccountsByBalance(db *sql.DB) http.HandlerFunc {
 			log.Println("User does not exists")
 			w.WriteHeader(http.StatusNotFound)
 		}
-
-		rows, err := db.Query("SELECT * FROM accounts where user_id=$1 ORDER BY balance", user.ID)
+		*/
+		rows, err := db.Query("SELECT * FROM accounts ORDER BY balance")
 		if err != nil {
 			log.Panicln("Account selection error")
 			w.WriteHeader(http.StatusNotFound)

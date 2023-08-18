@@ -3,14 +3,14 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 )
 
+// получение платежей по имени получателя с сортировкой
 func GetPaymentsById(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var input Input
+		/*var input Input
 
 		var account Account
 		var user User
@@ -29,13 +29,39 @@ func GetPaymentsById(db *sql.DB) http.HandlerFunc {
 			log.Println("User does not exists")
 			w.WriteHeader(http.StatusNotFound)
 		}
-		fmt.Println("account.ID", account.ID)
-		rows, err := db.Query("SELECT * FROM payments where user_id=$1 ORDER BY id", user.ID)
+		*/
+
+		rows, err := db.Query("SELECT * FROM payments ORDER BY id")
 		if err != nil {
 			log.Panicln("Account selection error")
 			w.WriteHeader(http.StatusNotFound)
 		}
-		fmt.Println(account.ID)
+
+		sortedPayments := []Payment{}
+
+		for rows.Next() {
+			var p Payment
+
+			if err = rows.Scan(&p.ID, &p.UserId, &p.Reciever, &p.RecieverIban, &p.Payer, &p.PayerIban, &p.AmountPayment, &p.Date); err != nil {
+				log.Println(err)
+			}
+			sortedPayments = append(sortedPayments, p)
+		}
+
+		json.NewEncoder(w).Encode(sortedPayments)
+
+	}
+}
+
+func GetPaymentsDate(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		rows, err := db.Query("SELECT * FROM payments ORDER BY date DESC")
+		if err != nil {
+			log.Panicln("Account selection error")
+			w.WriteHeader(http.StatusNotFound)
+		}
+
 		sortedPayments := []Payment{}
 
 		for rows.Next() {

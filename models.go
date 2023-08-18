@@ -30,6 +30,7 @@ type Payment struct {
 type Input struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`
+	Sort     string `json:"sort"`
 }
 
 type InputPayment struct {
