@@ -3,24 +3,25 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 )
 
 func CreateAdmin(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var input Input
+		//var admin User
 
-		var admin User
-
-		json.NewDecoder(r.Body).Decode(&admin)
+		json.NewDecoder(r.Body).Decode(&input)
 		isAdmin := true
-		hashedPassword, _ := HashedPassword(admin.PasswordHash)
+		hashedPassword, _ := HashedPassword(input.Password)
 
-		err := db.QueryRow("INSERT INTO users (name, password, is_admin) VALUES ($1,$2,$3) RETURNING id", admin.Name, hashedPassword, isAdmin).Scan(&admin.ID)
+		_, err := db.Query("INSERT INTO users (name, password, is_admin) VALUES ($1,$2,$3)", input.Name, hashedPassword, isAdmin)
 		if err != nil {
 			log.Println(err)
 		}
-		json.NewEncoder(w).Encode(admin.PasswordHash)
+		w.Write([]byte(fmt.Sprintf("User %s created", input.Name)))
 	}
 
 }
@@ -31,27 +32,27 @@ func CreateUser(db *sql.DB) http.HandlerFunc {
 		var user User
 
 		json.NewDecoder(r.Body).Decode(&input)
-
-		hashedPassword, _ := HashedPassword(user.PasswordHash)
 		isAdmin := false
+		hashedPassword, _ := HashedPassword(input.Password)
 
-		err := db.QueryRow("SELECT * FROM users WHERE name=$1", input.Name).Scan(
-			&user.ID, &user.Name, &user.PasswordHash, &user.IsAdmin)
+		err := db.QueryRow("SELECT name FROM users WHERE name=$1", input.Name).Scan(&user.Name)
 		if err != nil {
-			log.Println(err)
+			log.Println("Here", err)
 		}
 		expectedName := user.Name
 		inputName := input.Name
 
 		if inputName != expectedName {
-			err = db.QueryRow("INSERT INTO users (name, password,is_admin) VALUES ($1,$2,$3) RETURNING id", input.Name, hashedPassword, isAdmin).Scan(&user.ID)
+			_, err := db.Query("INSERT INTO users (name, password, is_admin) VALUES ($1,$2,$3)", input.Name, hashedPassword, isAdmin)
 			if err != nil {
 				log.Println(err)
 			}
-			json.NewEncoder(w).Encode(input.Password)
+
 		} else {
 			log.Println("User", inputName, "allready exixts")
+			return
 		}
+		w.Write([]byte(fmt.Sprintf("User %s created", input.Name)))
 
 	}
 

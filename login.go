@@ -31,11 +31,12 @@ func Login(db *sql.DB) http.HandlerFunc {
 
 		json.NewDecoder(r.Body).Decode(&input)
 
-		err := db.QueryRow("SELECT name, password FROM users WHERE name=$1", input.Name).Scan(
-			&user.Name, &user.PasswordHash)
+		err := db.QueryRow("SELECT * FROM users WHERE name=$1", input.Name).Scan(
+			&user.ID, &user.Name, &user.PasswordHash, &user.IsAdmin, &user.Blocked)
 		if err != nil {
-			log.Println("User does not exists")
+			log.Println("User does not exists", err)
 			w.WriteHeader(http.StatusUnauthorized)
+			return
 		}
 
 		if !CheckPassword(input.Password, user.PasswordHash) || input.Name != user.Name {
@@ -43,6 +44,11 @@ func Login(db *sql.DB) http.HandlerFunc {
 			log.Println("Wrong password or user name")
 			return
 		}
+		if user.Blocked == true {
+			w.Write([]byte(fmt.Sprintf("User %s blocked", input.Name)))
+			return
+		}
+
 		expirationTime := time.Now().Add(5 * time.Minute)
 
 		claims := &Claims{
@@ -75,4 +81,23 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		Name:    "token",
 		Expires: time.Now(),
 	})
+}
+
+func ChangeUserPassword(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var input Input
+
+		json.NewDecoder(r.Body).Decode(&input)
+
+		hashedPassword, _ := HashedPassword(input.Password)
+
+		_, err := db.Exec("UPDATE users SET password=$1 WHERE name=$2;", hashedPassword, input.Name)
+		if err != nil {
+			log.Println("Change password error")
+		}
+
+		w.Write([]byte(fmt.Sprintf("Password %s changed", input.Name)))
+
+	}
+
 }

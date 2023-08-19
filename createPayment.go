@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -33,10 +34,15 @@ func CreatePayment(db *sql.DB) http.HandlerFunc {
 			w.WriteHeader(http.StatusForbidden)
 		}
 		// по номеу счета (iban) получаем id, Iban, Balance получателя
-		err = db.QueryRow("SELECT id, user_id, iban, balance  FROM accounts WHERE iban=$1", input.ReceiverIban).Scan(&receiverAccount.ID, &receiverAccount.UserId, &receiverAccount.Iban, &receiverAccount.Balance)
+		err = db.QueryRow("SELECT id, user_id, iban, balance, blocked  FROM accounts WHERE iban=$1", input.ReceiverIban).Scan(
+			&receiverAccount.ID, &receiverAccount.UserId, &receiverAccount.Iban, &receiverAccount.Balance, &receiverAccount.Blocked)
 		if err != nil {
 			log.Println("Account does not exists")
 			w.WriteHeader(http.StatusForbidden)
+		}
+		if receiverAccount.Blocked == true {
+			log.Println("Reciever account blocked")
+			return
 		}
 
 		// создаем платеж
@@ -50,10 +56,14 @@ func CreatePayment(db *sql.DB) http.HandlerFunc {
 
 		// проверяем достаточно ли денег на счете отправителя и снимаем сумму платежа со счета
 
-		err = db.QueryRow("SELECT balance FROM accounts WHERE iban=$1", input.PayerIban).Scan(&payerAccount.Balance)
+		err = db.QueryRow("SELECT balance, blocked FROM accounts WHERE iban=$1", input.PayerIban).Scan(&payerAccount.Balance, &payerAccount.Blocked)
 		if err != nil {
 			log.Println("Wrong payer balance")
 			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		if payerAccount.Blocked == true {
+			log.Println("Payer account blocked")
 			return
 		}
 
@@ -77,6 +87,7 @@ func CreatePayment(db *sql.DB) http.HandlerFunc {
 			log.Println("Add to balance error")
 			w.WriteHeader(http.StatusForbidden)
 		}
+		w.Write([]byte(fmt.Sprintf("Payment payment was made %v UAH", input.AmountPayment)))
 
 	}
 }

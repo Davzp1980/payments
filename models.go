@@ -7,6 +7,7 @@ type User struct {
 	Name         string `json:"name"`
 	PasswordHash string `json:"password_hash"`
 	IsAdmin      bool   `json:"is_admin"`
+	Blocked      bool   `json:"blocked"`
 }
 
 type Account struct {
@@ -14,6 +15,7 @@ type Account struct {
 	UserId  int    `json:"user_id"`
 	Iban    string `json:"iban"`
 	Balance int    `json:"balance"`
+	Blocked bool   `json:"blocked"`
 }
 
 type Payment struct {
@@ -31,6 +33,7 @@ type Input struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`
 	Sort     string `json:"sort"`
+	Iban     string `json:"iban"`
 }
 
 type InputPayment struct {
