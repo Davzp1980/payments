@@ -40,7 +40,7 @@ func CreatePayment(db *sql.DB) http.HandlerFunc {
 			log.Println("Account does not exists")
 			w.WriteHeader(http.StatusForbidden)
 		}
-		if receiverAccount.Blocked == true {
+		if receiverAccount.Blocked {
 			log.Println("Reciever account blocked")
 			return
 		}
@@ -62,7 +62,7 @@ func CreatePayment(db *sql.DB) http.HandlerFunc {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		if payerAccount.Blocked == true {
+		if payerAccount.Blocked {
 			log.Println("Payer account blocked")
 			return
 		}

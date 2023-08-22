@@ -99,7 +99,7 @@ func (g *PostgresRepo) AdminLogginingMiddleware(db *sql.DB, next http.Handler) h
 				return
 			}
 
-			if g.GetName(claims.Username) == true {
+			if g.GetName(claims.Username) {
 				w.Write([]byte(fmt.Sprintf("User authorizated %s", claims.Username)))
 			} else {
 				log.Println("Not enough use rights lose ")
