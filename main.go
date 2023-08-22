@@ -22,20 +22,19 @@ func main() {
 
 	router := mux.NewRouter()
 
-	//router.Use(AdminLogginingMiddleware)
+	//router.Use(.Get.AdminLogginingMiddleware)
 	router.HandleFunc("/blockuser", BlockUser(db)).Methods("POST")
 	router.HandleFunc("/unblockuser", UnBlockUser(db)).Methods("POST")
 	router.HandleFunc("/createadmin", CreateAdmin(db)).Methods("POST")
 	router.HandleFunc("/login", Login(db)).Methods("POST")
 	router.HandleFunc("/createuser", CreateUser(db)).Methods("POST")
 	router.HandleFunc("/changepassword", ChangeUserPassword(db)).Methods("POST")
+	router.HandleFunc("/blockaccount", BlockAccount(db)).Methods("POST")
+	router.HandleFunc("/unblockaccount", UnBlockAccount(db)).Methods("POST")
 
 	router.Use(LogginingMiddleware)
 	router.HandleFunc("/createaccount", CreateAccount(db)).Methods("POST")
 	router.HandleFunc("/createapayment", CreatePayment(db)).Methods("POST")
-
-	router.HandleFunc("/blockaccount", BlockAccount(db)).Methods("POST")
-	router.HandleFunc("/unblockaccount", UnBlockAccount(db)).Methods("POST")
 
 	router.HandleFunc("/getaccountid", GetAccountsById(db)).Methods("GET")
 	router.HandleFunc("/getaccountiban", GetAccountsByIban(db)).Methods("GET")

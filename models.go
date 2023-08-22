@@ -1,6 +1,8 @@
 package main
 
-import "time"
+import (
+	"time"
+)
 
 type User struct {
 	ID           int    `json:"id"`

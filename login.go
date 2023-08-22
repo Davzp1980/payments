@@ -44,7 +44,7 @@ func Login(db *sql.DB) http.HandlerFunc {
 			log.Println("Wrong password or user name")
 			return
 		}
-		if user.Blocked == true {
+		if user.Blocked {
 			w.Write([]byte(fmt.Sprintf("User %s blocked", input.Name)))
 			return
 		}
