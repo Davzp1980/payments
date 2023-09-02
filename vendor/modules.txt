@@ -1,21 +1,48 @@
-# github.com/go-chi/chi/v5 v5.0.10
-## explicit; go 1.14
+# github.com/a1div0/fakedb v1.0.0
+## explicit; go 1.12
+github.com/a1div0/fakedb
+# github.com/davecgh/go-spew v1.1.1
+## explicit
 # github.com/golang-jwt/jwt/v4 v4.5.0
 ## explicit; go 1.16
 github.com/golang-jwt/jwt/v4
+# github.com/golang/mock v1.6.0
+## explicit; go 1.11
+github.com/golang/mock/gomock
 # github.com/gorilla/mux v1.8.0
 ## explicit; go 1.12
 github.com/gorilla/mux
+# github.com/jackc/pgpassfile v1.0.0
+## explicit; go 1.12
+# github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a
+## explicit; go 1.14
+# github.com/jackc/pgx/v5 v5.4.3
+## explicit; go 1.19
+# github.com/jackc/puddle/v2 v2.2.1
+## explicit; go 1.19
 # github.com/lib/pq v1.10.9
 ## explicit; go 1.13
 github.com/lib/pq
 github.com/lib/pq/oid
 github.com/lib/pq/scram
+# github.com/magiconair/properties v1.8.7
+## explicit; go 1.19
+github.com/magiconair/properties/assert
+# github.com/pashagolub/pgxmock/v2 v2.12.0
+## explicit; go 1.20
+# github.com/pmezard/go-difflib v1.0.0
+## explicit
+# github.com/stretchr/objx v0.5.0
+## explicit; go 1.12
 # github.com/stretchr/testify v1.8.4
 ## explicit; go 1.20
 # golang.org/x/crypto v0.12.0
 ## explicit; go 1.17
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
+# golang.org/x/sync v0.1.0
+## explicit
+# golang.org/x/text v0.12.0
+## explicit; go 1.17
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit

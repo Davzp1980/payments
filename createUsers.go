@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+//go:generate mockgen -source=createUsers.go -destination=mocks/mock.go
 //Поля в postman:
 // "name"
 // "password"
