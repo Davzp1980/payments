@@ -23,11 +23,13 @@ func CreateAdmin(db *sql.DB) http.HandlerFunc {
 
 		_, err := db.Query("INSERT INTO users (name, password, is_admin) VALUES ($1,$2,$3)", input.Name, hashedPassword, isAdmin)
 		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
 			log.Println(err)
 			w.Write([]byte(fmt.Sprintf("User %s already exists", input.Name)))
 			return
 		}
 		w.Write([]byte(fmt.Sprintf("User %s created", input.Name)))
+
 	}
 
 }
